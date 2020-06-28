@@ -1,0 +1,8 @@
+
+* These data models were created or updated with ER/Studio 18.3. 
+
+* These are logical models. Physical models have not been created yet.
+
+* Since our interest in these models for the purpose of the session is to pay attention to the keys and columns, these models have not 
+	been completely developed. For example, data types have not been clean up yet but will be at some point. So just ignore the
+	data types for now.  
