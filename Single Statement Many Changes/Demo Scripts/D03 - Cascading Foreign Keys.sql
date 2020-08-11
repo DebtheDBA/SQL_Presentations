@@ -83,7 +83,7 @@ SELECT * FROM Alter_Ego_Person WHERE Alter_Ego_ID = 4
 
 DELETE FROM Alter_Ego WHERE Alter_Ego_Name = 'Storm'
 
-SELECT * FROM Alter_Ego_Person WHERE Person_ID = 7
+SELECT * FROM Alter_Ego_Person WHERE Person_ID = 8
 
 
 -- Now - what happens if the default doesn't exist in the reference table?
@@ -114,15 +114,16 @@ OUTPUT inserted.Alter_Ego_ID
 SELECT 'Storm', Comic_Universe_ID
 FROM Comic_Universe WHERE Comic_Universe_Name = 'Marvel'
 
+SELECT * FROM Person
 
 UPDATE Alter_Ego_Person
 SET Alter_Ego_ID = 8
-WHERE Person_ID = 7
+WHERE Person_ID = 8
 
 
 DELETE FROM Alter_Ego WHERE Alter_Ego_Name = 'Storm'
 
-SELECT * FROM Alter_Ego_Person WHERE Person_ID = 7
+SELECT * FROM Alter_Ego_Person WHERE Person_ID = 8
 select * from Alter_Ego WHERE Alter_Ego_Name = 'Storm'
 
 -- reset!
