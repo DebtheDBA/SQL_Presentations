@@ -8,7 +8,7 @@ GO
 ******************************/
 
 -- Everytime we want to insert a Person, we want to add them to the Alter_Ego_Person table
-CREATE TRIGGER Person_itr ON dbo.Person
+CREATE OR ALTER TRIGGER Person_itr ON dbo.Person
 FOR INSERT
 AS
 BEGIN
@@ -35,10 +35,11 @@ GO
 SELECT *
 FROM Person as p
 	JOIN Alter_Ego_Person as aep ON p.Person_ID = aep.Person_ID
-WHERE p.Last_Name = 'Melkin'
+WHERE p.Last_Name = 'Melkin';
+GO
 
 -- When we delete a Person, we need to remove them to the Alter_Ego_Person table
-CREATE TRIGGER Person_dtr ON dbo.Person
+CREATE OR ALTER TRIGGER Person_dtr ON dbo.Person
 FOR DELETE
 AS
 BEGIN
@@ -59,7 +60,7 @@ GO
 
 -- let's recreate that delete trigger:
 
-ALTER TRIGGER Person_dtr ON dbo.Person
+CREATE OR ALTER TRIGGER Person_dtr ON dbo.Person
 INSTEAD OF DELETE
 AS
 BEGIN

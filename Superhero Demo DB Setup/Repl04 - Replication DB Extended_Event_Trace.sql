@@ -72,7 +72,7 @@ ADD EVENT sqlserver.sql_statement_starting(
 			sqlserver.server_principal_name,
 			sqlserver.session_id)
 	WHERE ([sqlserver].[database_name]=N'Superheroes_Repl'))
-ADD TARGET package0.event_file(SET filename=N'C:\GitRepo\SQL_Presentations\Superhero DBs Setup\XETrace\Superheroes_Repl_Trace',max_file_size=(100))
+ADD TARGET package0.event_file(SET filename=N'C:\GitRepo\SQL_Presentations\Superhero Demo DB Setup\XETrace\Superheroes_Repl_Trace',max_file_size=(100))
 
 GO
 

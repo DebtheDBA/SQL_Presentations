@@ -1,3 +1,7 @@
+Use Superheroes;
+GO	
+
+
 IF NOT EXISTS (SELECT * FROM Person WHERE First_Name = 'Peggy' AND Last_Name = 'Carter')
 INSERT INTO dbo.Person (First_Name, Last_Name) 
 SELECT 'Peggy', 'Carter';

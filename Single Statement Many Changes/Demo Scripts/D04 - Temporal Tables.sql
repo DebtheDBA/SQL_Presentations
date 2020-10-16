@@ -56,7 +56,7 @@ let's start making some changes
 ***************/
 
 -- Alter remaining trigger on Person
-ALTER TRIGGER Person_itr ON dbo.Person
+CREATE OR ALTER TRIGGER Person_itr ON dbo.Person
 FOR INSERT
 AS
 BEGIN
@@ -71,7 +71,7 @@ END
 GO
 
 
--- NOTE THE TIME: 2020-07-21 23:56:25.733
+-- NOTE THE TIME: 2020-10-13 12:03:58.240
 SELECT getutcdate()
 
 -- Add myself back to Person and Alter_Ego_Person
@@ -149,7 +149,7 @@ FROM Alter_Ego_Person as aep
 	CROSS JOIN Alter_Ego as ae 
 WHERE (First_Name = 'Diana' AND Last_Name = 'Prince') AND Alter_Ego_Name = 'Average Citizen'
 
-SELECT getutcdate() --2020-07-21 23:57:57.157
+SELECT getutcdate() --2020-10-13 12:05:00.407
 
 -- Do i have to switch it back? Fine....
 UPDATE aep
@@ -179,12 +179,12 @@ FROM Alter_Ego_Person as aep
 ;
 GO
 --current time: 
--- Remember that time I was wonder woman?
+-- Remember that time I was wonder woman? ---2020-10-13 12:05:16.947
 SELECT * 
 FROM (
 	SELECT Alter_Ego_ID, Person_ID
 	FROM Alter_Ego_Person 
-	FOR System_Time AS OF '2020-07-21 23:57:57.157'
+	FOR System_Time AS OF '2020-10-13 12:05:16.947'
 ) as aep_asof
 	JOIN Person as p ON aep_asof.Person_ID = p.Person_ID
 	JOIN Alter_Ego as ae ON aep_asof.Alter_Ego_ID = ae.Alter_Ego_ID
@@ -194,14 +194,15 @@ SELECT *
 FROM (
 	SELECT Alter_Ego_ID, Person_ID, Sys_Start_Time, Sys_End_Time
 	FROM Alter_Ego_Person 
-	FOR System_Time BETWEEN '2020-07-21 23:57:57.157' AND '2020-07-21 23:58:23.0453932'
+	FOR System_Time BETWEEN '2020-10-13 12:05:16.947' AND '2020-10-13 12:05:46.947'
 ) as aep_asof
 	JOIN Person as p ON aep_asof.Person_ID = p.Person_ID
 	JOIN Alter_Ego as ae ON aep_asof.Alter_Ego_ID = ae.Alter_Ego_ID
 ORDER BY aep_asof.Sys_Start_Time
 GO
 
-SELECT * FROM Alter_Ego_Person_Temporal_History
+SELECT * FROM Alter_Ego_Person_Temporal_History;
+GO
 
 CREATE OR ALTER VIEW dbo.Show_Alter_Ego_People
 AS 
@@ -212,7 +213,7 @@ FROM Alter_Ego_Person as aep
 GO
 
 SELECT * FROM Show_Alter_Ego_People
-FOR SYSTEM_TIME AS OF '2020-07-21 23:57:57.157'
+FOR SYSTEM_TIME AS OF '2020-10-13 12:05:16.947'
 
 -- Let's check the numbers behind the queries
 SELECT count(*) FROM Alter_Ego_Person_Temporal_History
