@@ -1,3 +1,6 @@
+USE Superheroes
+GO
+
 CREATE OR ALTER PROCEDURE dbo.Return_The_Catch_All_Search
 	@LastName	varchar(50) = NULL,
 	@FirstName	varchar(50) = NULL,

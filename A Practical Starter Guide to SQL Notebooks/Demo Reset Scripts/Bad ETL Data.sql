@@ -1,3 +1,6 @@
+USE Superheroes
+GO
+
 
 INSERT INTO dbo.Good_Deed_Type (Good_Deed_Type_Name)
 SELECT 'HeLp PeRsOn'

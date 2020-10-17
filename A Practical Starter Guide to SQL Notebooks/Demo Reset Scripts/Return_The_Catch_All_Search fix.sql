@@ -1,3 +1,6 @@
+USE Superheroes
+GO
+
 
 SELECT p.First_Name, p.Last_Name, ae.Alter_Ego_Name
 FROM Person as p JOIN 
