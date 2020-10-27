@@ -1,3 +1,5 @@
+USE Superheroes
+GO
 
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE name = 'Good_Deed_Type')
 CREATE TABLE dbo.Good_Deed_Type (

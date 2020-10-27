@@ -1,3 +1,5 @@
+USE Superheroes
+GO
 
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE name = 'ETL_Error_Log')
 CREATE TABLE dbo.ETL_Error_Log (

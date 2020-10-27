@@ -1,3 +1,5 @@
+USE Superheroes
+GO
 
 CREATE OR ALTER PROCEDURE dbo.Add_Good_Deed (
 	@Person_Name VARCHAR(250),
