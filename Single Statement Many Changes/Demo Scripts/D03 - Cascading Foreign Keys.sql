@@ -71,6 +71,7 @@ ADD CONSTRAINT DF_Alter_Ego_Person_Alter_Ego_ID DEFAULT 1
 
 -- Who needs to go...
 SELECT * FROM Alter_Ego WHERE Alter_Ego_ID > 1
+SELECT * FROM Person WHERE First_Name = 'Ororo' AND Last_Name = 'Munroe'
 
 UPDATE aep
 SET Alter_Ego_ID = ae.Alter_Ego_ID
@@ -83,7 +84,7 @@ SELECT * FROM Alter_Ego_Person WHERE Alter_Ego_ID = 4
 
 DELETE FROM Alter_Ego WHERE Alter_Ego_Name = 'Storm'
 
-SELECT * FROM Alter_Ego_Person WHERE Person_ID = 8
+SELECT * FROM Alter_Ego_Person WHERE Person_ID = 7
 
 
 -- Now - what happens if the default doesn't exist in the reference table?
@@ -118,12 +119,12 @@ SELECT * FROM Person
 
 UPDATE Alter_Ego_Person
 SET Alter_Ego_ID = 8
-WHERE Person_ID = 8
+WHERE Person_ID = 7
 
 
 DELETE FROM Alter_Ego WHERE Alter_Ego_Name = 'Storm'
 
-SELECT * FROM Alter_Ego_Person WHERE Person_ID = 8
+SELECT * FROM Alter_Ego_Person WHERE Person_ID = 7
 select * from Alter_Ego WHERE Alter_Ego_Name = 'Storm'
 
 -- reset!

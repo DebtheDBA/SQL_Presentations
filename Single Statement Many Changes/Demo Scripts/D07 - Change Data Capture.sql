@@ -60,29 +60,29 @@ WHERE Alter_Ego_Name = 'Wonder Woman'
 
 SELECT * FROM Gadget
 
--- Person ID = 11
+-- Person ID = 10
 
-INSERT INTO Gadget_Order_Form (Person_ID, Gadget_ID)
-SELECT 11 as Person_ID, Gadget_ID FROM Gadget
+INSERT INTO Gadget_Order_Form (Person_ID, Gadget_ID, Number_Ordered)
+SELECT 10 as Person_ID, Gadget_ID, 1 FROM Gadget
 
 UPDATE Gadget_Order_Form
-SET Price_Per_Item = 100, Number_Ordered = 1
-WHERE Person_ID = 11 
+SET Price_Per_Item = 100, Number_Ordered = 2
+WHERE Person_ID = 10
 AND Gadget_ID = 1
 
 UPDATE Gadget_Order_Form
 SET Price_Per_Item = 20, Number_Ordered = 4
-WHERE Person_ID = 11 
+WHERE Person_ID = 10
 AND Gadget_ID = 2
 
 UPDATE Gadget_Order_Form
-SET Price_Per_Item = 30, Number_Ordered = 2
-WHERE Person_ID = 11 
+SET Price_Per_Item = 30, Number_Ordered = 1
+WHERE Person_ID = 10
 AND Gadget_ID = 3
 
 UPDATE Gadget_Order_Form
 SET Price_Per_Item = 10000, Number_Ordered = 1
-WHERE Person_ID = 11 
+WHERE Person_ID = 10
 AND Gadget_ID = 4
 
 -- Forgot to figure out shipping, tax and total amounts. Let's do this as one calculation
@@ -92,12 +92,12 @@ SET Shipping = CASE WHEN Gadget_ID = 4 THEN 0 ELSE 10 END,
 	Total_Due = (Price_Per_Item * Number_Ordered) 
 				+ CASE WHEN Gadget_ID = 4 THEN 0 ELSE 10 END 
 				+ (Price_Per_Item * Number_Ordered) * .0525
-WHERE Person_ID = 11
+WHERE Person_ID = 10
 
 SELECT * FROM Gadget_Order_Form
 
 -- Just kidding - i'm not buying the jet after all....
-DELETE FROM Gadget_Order_Form WHERE Person_ID = 11 and Gadget_ID = 4
+DELETE FROM Gadget_Order_Form WHERE Person_ID = 10 and Gadget_ID = 4
 
 -- now let's look at the changes in CDC
 SELECT * FROM cdc.dbo_Gadget_Order_Form_CT
