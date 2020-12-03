@@ -14,7 +14,10 @@ GO
 
 -- Alter Alter_Ego_Person to get the system verion columns added. 
 -- Note the values for the default column
-IF NOT EXISTS (SELECT * FROM sys.columns WHERE object_id = OBJECT_ID('Alter_Ego_Person') AND name IN ('Sys_Start_Time','Sys_End_Time'))
+IF NOT EXISTS (
+	SELECT * FROM sys.columns WHERE object_id = OBJECT_ID('Alter_Ego_Person') 
+	AND name IN ('Sys_Start_Time','Sys_End_Time')
+	)
 ALTER TABLE Alter_Ego_Person
 ADD 
     Sys_Start_Time		 DATETIME2		GENERATED ALWAYS AS ROW START HIDDEN NOT NULL
@@ -38,6 +41,9 @@ SET (SYSTEM_VERSIONING = ON (DATA_CONSISTENCY_CHECK = ON));
 go
 
 -- Look in the Object Explorer
+
+
+--------------------------------------------
 -- Whoops meant to name it....
 
 ALTER TABLE Alter_Ego_Person
@@ -45,7 +51,8 @@ SET (SYSTEM_VERSIONING = OFF);
 GO
 
 ALTER TABLE Alter_Ego_Person 
-SET (SYSTEM_VERSIONING = ON (HISTORY_TABLE = dbo.Alter_Ego_Person_Temporal_History, DATA_CONSISTENCY_CHECK = ON));
+SET (SYSTEM_VERSIONING = ON (HISTORY_TABLE = dbo.Alter_Ego_Person_Temporal_History, 
+							DATA_CONSISTENCY_CHECK = ON));
 go
 
 -- check out Object Explorer
@@ -71,7 +78,7 @@ END
 GO
 
 
--- NOTE THE TIME: 2020-10-13 12:03:58.240
+-- NOTE THE TIME: 2020-12-03 15:29:52.957
 SELECT getutcdate()
 
 -- Add myself back to Person and Alter_Ego_Person
@@ -149,7 +156,7 @@ FROM Alter_Ego_Person as aep
 	CROSS JOIN Alter_Ego as ae 
 WHERE (First_Name = 'Diana' AND Last_Name = 'Prince') AND Alter_Ego_Name = 'Average Citizen'
 
-SELECT getutcdate() --2020-10-13 12:05:00.407
+SELECT getutcdate() -- 2020-12-03 15:31:28.030
 
 -- Do i have to switch it back? Fine....
 UPDATE aep
@@ -179,12 +186,12 @@ FROM Alter_Ego_Person as aep
 ;
 GO
 --current time: 
--- Remember that time I was wonder woman? ---2020-10-13 12:05:16.947
+-- Remember that time I was wonder woman? --2020-12-03 15:31:48.650
 SELECT * 
 FROM (
 	SELECT Alter_Ego_ID, Person_ID
 	FROM Alter_Ego_Person 
-	FOR System_Time AS OF '2020-10-13 12:05:16.947'
+	FOR System_Time AS OF '2020-12-03 15:31:48.7000'
 ) as aep_asof
 	JOIN Person as p ON aep_asof.Person_ID = p.Person_ID
 	JOIN Alter_Ego as ae ON aep_asof.Alter_Ego_ID = ae.Alter_Ego_ID
@@ -194,7 +201,7 @@ SELECT *
 FROM (
 	SELECT Alter_Ego_ID, Person_ID, Sys_Start_Time, Sys_End_Time
 	FROM Alter_Ego_Person 
-	FOR System_Time BETWEEN '2020-10-13 12:05:16.947' AND '2020-10-13 12:05:46.947'
+	FOR System_Time BETWEEN '2020-12-03 15:31:28.030' AND '2020-12-03 15:31:48.650'
 ) as aep_asof
 	JOIN Person as p ON aep_asof.Person_ID = p.Person_ID
 	JOIN Alter_Ego as ae ON aep_asof.Alter_Ego_ID = ae.Alter_Ego_ID
@@ -213,7 +220,7 @@ FROM Alter_Ego_Person as aep
 GO
 
 SELECT * FROM Show_Alter_Ego_People
-FOR SYSTEM_TIME AS OF '2020-10-13 12:05:16.947'
+FOR SYSTEM_TIME AS OF '2020-12-03 15:31:28.030'
 
 -- Let's check the numbers behind the queries
 SELECT count(*) FROM Alter_Ego_Person_Temporal_History
@@ -221,9 +228,11 @@ SELECT count(*) FROM Alter_Ego_Person_Temporal_History
 SELECT count(*) FROM Alter_Ego_Person FOR System_Time ALL
 
 -- now look at the data
-SELECT * FROM Alter_Ego_Person_Temporal_History ORDER BY Person_ID, Sys_Start_Time
+SELECT * FROM Alter_Ego_Person_Temporal_History 
+ORDER BY Person_ID, Sys_Start_Time
 
-SELECT Alter_Ego_Person_ID, Person_ID, Alter_Ego_ID, Sys_Start_Time, Sys_End_Time FROM Alter_Ego_Person FOR System_Time ALL
+SELECT Alter_Ego_Person_ID, Person_ID, Alter_Ego_ID, Sys_Start_Time, Sys_End_Time 
+FROM Alter_Ego_Person FOR System_Time ALL
 ORDER BY Person_ID, Sys_Start_Time
 
 GO
