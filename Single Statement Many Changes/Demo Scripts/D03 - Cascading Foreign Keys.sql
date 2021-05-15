@@ -56,8 +56,19 @@ SELECT * FROM dbo.Alter_Ego_Person
 -------------------------------------------------------------------------
 
 -- what happens if we delete an Alter Ego??
+
 IF EXISTS (SELECT * FROM sys.objects WHERE name = 'FK_Alter_Ego_Person_Alter_Ego_ID' AND parent_object_id = OBJECT_ID('Alter_Ego_Person'))
 ALTER TABLE dbo.Alter_Ego_Person DROP CONSTRAINT FK_Alter_Ego_Person_Alter_Ego_ID
+;
+
+IF EXISTS (SELECT * FROM sys.objects WHERE name = 'DF_Alter_Ego_Person_Alter_Ego_ID' AND parent_object_id = OBJECT_ID('Alter_Ego_Person'))
+ALTER TABLE dbo.Alter_Ego_Person DROP CONSTRAINT DF_Alter_Ego_Person_Alter_Ego_ID
+
+-- modify the column
+ALTER TABLE dbo.Alter_Ego_Person
+ADD CONSTRAINT DF_Alter_Ego_Person_Alter_Ego_ID DEFAULT 1
+	FOR Alter_Ego_ID
+;
 
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE name = 'FK_Alter_Ego_Person_Alter_Ego_ID' AND parent_object_id = OBJECT_ID('Alter_Ego_Person'))
 ALTER TABLE dbo.Alter_Ego_Person ADD CONSTRAINT FK_Alter_Ego_Person_Alter_Ego_ID
@@ -66,11 +77,6 @@ ALTER TABLE dbo.Alter_Ego_Person ADD CONSTRAINT FK_Alter_Ego_Person_Alter_Ego_ID
 	ON DELETE SET DEFAULT 
 go
 
--- modify the column
-ALTER TABLE dbo.Alter_Ego_Person
-ADD CONSTRAINT DF_Alter_Ego_Person_Alter_Ego_ID DEFAULT 1
-	FOR Alter_Ego_ID
-;
 
 
 -- now go back and modify the table....
@@ -125,7 +131,7 @@ IF NOT EXISTS (SELECT * FROM dbo.Alter_Ego WHERE Alter_Ego_Name = 'Storm')
 INSERT INTO dbo.Alter_Ego (Alter_Ego_Name, Comic_Universe_ID)
 OUTPUT inserted.Alter_Ego_ID
 SELECT 'Storm', Comic_Universe_ID
-FROM Comic_Universe WHERE Comic_Universe_Name = 'Marvel'
+FROM dbo.Comic_Universe WHERE Comic_Universe_Name = 'Marvel'
 
 SELECT * FROM dbo.Person
 
