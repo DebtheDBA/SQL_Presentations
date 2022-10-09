@@ -22,7 +22,7 @@ WHERE Last_Name = 'Prince'
 
 
 
-
+GO
 
 -- Let's try this instead
 SELECT Person_ID, Full_Name, First_Name, Last_Name
