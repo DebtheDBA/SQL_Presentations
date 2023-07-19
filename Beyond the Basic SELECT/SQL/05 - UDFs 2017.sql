@@ -1,6 +1,14 @@
 /*******************************
-Connect to SQL 2017 Instance
+Use SQL 2017 Compatibility. 
+Connect either to an instance or change compat mode
 *******************************/
+
+
+-- set to SQL 2017
+USE [master]
+GO
+ALTER DATABASE [DebsAdventureWorks] SET COMPATIBILITY_LEVEL = 140
+GO
 
 
 USE DebsAdventureWorks
@@ -21,7 +29,7 @@ GO
 /******************************************
 Multi-Statement Table Value Functions
 
-THese are the same queries that we look at with SQL 2016
+THese are the same queries that we look at with SQL 2016 compat
 ******************************************/
 -- Selecting from a UDF by itself
 SELECT PersonID, FirstName, LastName, JobTitle, BusinessEntityType

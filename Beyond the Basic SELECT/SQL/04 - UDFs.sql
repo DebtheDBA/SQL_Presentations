@@ -1,5 +1,12 @@
+-- set to SQL 2016 compat. We'll talk about why later....
+USE [master]
+GO
+ALTER DATABASE [DebsAdventureWorks] SET COMPATIBILITY_LEVEL = 130
+GO
+
 USE DebsAdventureWorks
 GO
+
 
 /*******************************
 User Defined Functions:
@@ -212,7 +219,7 @@ FROM [Purchasing].[Vendor] AS v
 WHERE p.PersonType = 'VC' -- vendor
 ;				
 
-
+-- Go back and note the database compatiblity level 
 -- Now let's check out the SQL 2017 changes
 
 GO

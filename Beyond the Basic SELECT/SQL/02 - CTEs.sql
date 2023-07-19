@@ -8,6 +8,7 @@ Instructions:
 * Turn on Actual Execution Plans (Ctrl+M) before running the queries on this page.
 *******************************************************************************************/
 
+SET STATISTICS IO ON;
 
 /*******************************************************************************************
 -- Using a CTE instead of derived table
@@ -97,7 +98,8 @@ FROM Sales.SalesPerson as sp
 /*******************************************************************************************
 -- What's better CTE vs. Temp Table
 
-Run the previous query with the CTE and the below statements through the DROP TABLE statement.
+Create and load the data for the temp table. Then run the previous statement (copied below) at the
+a same time as the version using the CTE.
 Note the query cost compare with batch and the query stat times of the SELECT statements.
 
 *******************************************************************************************/
@@ -162,6 +164,49 @@ FROM Sales.SalesPerson as sp
 		GROUP BY c.CustomerID, c.AccountNumber, c.StoreID, c.TerritoryID,soh.SalesPersonID
 	) as orders ON orders.SalesPersonID = sp.BusinessEntityID;
 
+	
+-- Run with the previous version of the query that uses a CTE
+;
+WITH details_cte AS
+(
+	SELECT sod.SalesOrderID,
+		COUNT(distinct CarrierTrackingNumber) as NumberofShipments,
+		COUNT(distinct ProductID) as NumberofProducts,
+		SUM(sod.OrderQty) as TotalQuantity,
+		AVG(sod.OrderQty) as AvgQuantityPerProduct,
+		SUM(sod.OrderQty * sod.UnitPrice) as SubTotal,
+		SUM(sod.UnitPriceDiscount * sod.OrderQty) as TotalUnitDiscount,
+		SUM(UnitPrice * sod.OrderQty)/SUM(sod.OrderQty) as WeightedAvgPrice,
+		AVG(UnitPrice) as AvgUnitPrice,
+		MIN(UnitPrice) as MinUnitPrice,
+		MAX(UnitPrice) as MaxUnitPrice,
+		AVG(OrderQty) as AvgOrderQty,
+		MIN(OrderQty) as MinOrderQty,
+		MAX(OrderQty) as MaxOrderQty
+	FROM Sales.SalesOrderDetail as sod
+	GROUP BY sod.SalesOrderID
+)
+SELECT sp.BusinessEntityID, sp.SalesQuota,
+	orders.CustomerID, orders.AccountNumber, 
+	orders.TotalDue, orders.AvgSalesOrderAmt, orders.TotalSalesOrderQuanity,
+	orders.WeightedAvgPricePerQty
+FROM Sales.SalesPerson as sp
+	JOIN (
+		SELECT
+			c.CustomerID, c.AccountNumber, c.StoreID, c.TerritoryID,
+			soh.SalesPersonID,
+			SUM(soh.TotalDue) as TotalDue,
+			SUM(soh.TotalDue) / COUNT(soh.SalesOrderID) as AvgSalesOrderAmt,
+			SUM(details.NumberOfShipments) as TotalNumberOfShipments,
+			SUM(details.TotalQuantity) as TotalSalesOrderQuanity,
+			SUM(details.WeightedAvgPrice) / COUNT(soh.SalesOrderID) as WeightedAvgPricePerQty
+		FROM Sales.Customer as c 
+			JOIN Sales.SalesOrderHeader as soh ON soh.CustomerID = c.CustomerID
+			JOIN details_cte as details ON soh.SalesOrderID = details.SalesOrderID
+		GROUP BY c.CustomerID, c.AccountNumber, c.StoreID, c.TerritoryID,soh.SalesPersonID
+	) as orders ON orders.SalesPersonID = sp.BusinessEntityID
+;
+	
 -- Clean up
 DROP TABLE #SalesOrderDetailSummary;
 

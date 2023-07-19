@@ -94,8 +94,7 @@ SELECT p.PersonType,
 	sp.LastName, 
 	sp.TerritoryName
 FROM   Person.Person as p 
-	JOIN Sales.vSalesPerson as sp ON p.BusinessEntityID = sp.BusinessEntityID
-;
+	JOIN Sales.vSalesPerson as sp ON p.BusinessEntityID = sp.BusinessEntityID;
 
 
 

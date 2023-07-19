@@ -1,6 +1,13 @@
 /*******************************
-Connect to SQL 2019 Instance
+Use SQL 2019 Compatibility. 
+Connect either to an instance or change compat mode
 *******************************/
+
+-- set to SQL 2019
+USE [master]
+GO
+ALTER DATABASE [DebsAdventureWorks] SET COMPATIBILITY_LEVEL = 150
+GO
 
 USE DebsAdventureWorks
 GO
@@ -102,3 +109,17 @@ FROM Person.Person as p
 
 GO
 -- end of script
+
+/* if there's time, set to SQL 2022 compat */
+
+
+-- set to SQL 2022
+USE [master]
+GO
+ALTER DATABASE [DebsAdventureWorks] SET COMPATIBILITY_LEVEL = 160
+GO
+
+USE DebsAdventureWorks
+GO
+
+/* no new changes here */
