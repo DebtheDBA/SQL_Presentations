@@ -82,6 +82,8 @@ BEGIN
 END
 GO
 
+
+
 DELETE FROM dbo.Person
 WHERE Last_Name = 'Melkin'
 ;

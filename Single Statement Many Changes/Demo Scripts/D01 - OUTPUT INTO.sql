@@ -17,8 +17,8 @@ SELECT * FROM dbo.Person
 -- add my list of people
 
 INSERT INTO dbo.Person (First_Name, Last_Name)
-OUTPUT inserted.Person_ID, 1
-INTO dbo.Alter_Ego_Person (Person_ID, Alter_Ego_ID)
+	OUTPUT inserted.Person_ID, 1
+	INTO dbo.Alter_Ego_Person (Person_ID, Alter_Ego_ID)
 VALUES	('Deborah', 'Melkin'),
 		('Diana', 'Prince'),	
 		('Linda','Danvers'),	

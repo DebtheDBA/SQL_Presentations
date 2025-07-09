@@ -31,8 +31,10 @@ ALTER TABLE dbo.Alter_Ego_Person
 DROP CONSTRAINT DF_Alter_Ego_Person_Sys_Start_Time, DF_Alter_Ego_Person_Sys_End_Time
 ;
 
-SELECT * FROM dbo.Alter_Ego_Person
-SELECT Alter_Ego_Person_ID, Person_ID, Alter_Ego_ID, Sys_Start_Time, Sys_End_Time FROM Alter_Ego_Person
+SELECT * FROM dbo.Alter_Ego_Person;
+
+SELECT Alter_Ego_Person_ID, Person_ID, Alter_Ego_ID, Sys_Start_Time, Sys_End_Time 
+FROM Alter_Ego_Person;
 
 
 -- Alter Alter_Ego_Person to system version ON.
@@ -78,7 +80,7 @@ END
 GO
 
 
--- NOTE THE TIME: 2020-12-03 15:29:52.957
+-- NOTE THE TIME: -- 2025-07-04 18:59:14.620
 SELECT getutcdate()
 
 -------------------------------------------------------------------------
@@ -89,6 +91,8 @@ INSERT INTO dbo.Person (First_Name, Last_Name)
 VALUES ('Deborah', 'Melkin')
 
 
+SELECT * FROM dbo.Person 
+SELECT * FROM dbo.Alter_Ego_Person
 SELECT * FROM dbo.Alter_Ego_Person_Temporal_History
 
 -- Set the other women to their correct alter egos. Make some mistakes. 
@@ -150,7 +154,8 @@ SET Alter_Ego_ID = ae.Alter_Ego_ID
 FROM dbo.Alter_Ego_Person as aep 
 	JOIN dbo.Person as p ON aep.Person_ID = p.Person_ID
 	CROSS JOIN dbo.Alter_Ego as ae 
-WHERE (p.First_Name = 'Deborah' AND p.Last_Name ='Melkin') AND ae.Alter_Ego_Name = 'Wonder Woman'
+WHERE (p.First_Name = 'Deborah' AND p.Last_Name ='Melkin') 
+AND ae.Alter_Ego_Name = 'Wonder Woman'
 
 
 UPDATE aep
@@ -158,9 +163,11 @@ SET Alter_Ego_ID = ae.Alter_Ego_ID
 FROM dbo.Alter_Ego_Person as aep 
 	JOIN dbo.Person as p ON aep.Person_ID = p.Person_ID
 	CROSS JOIN dbo.Alter_Ego as ae 
-WHERE (p.First_Name = 'Diana' AND p.Last_Name ='Prince') AND ae.Alter_Ego_Name = 'Average Citizen'
+WHERE (p.First_Name = 'Diana' AND p.Last_Name ='Prince') 
+AND ae.Alter_Ego_Name = 'Average Citizen'
 
-SELECT getutcdate() -- 
+SELECT getutcdate() -- 2025-07-04 19:00:37.217
+
 
 -- Do i have to switch it back? Fine....
 UPDATE aep
@@ -191,8 +198,10 @@ FROM dbo.Alter_Ego_Person as aep
 	JOIN Alter_Ego as ae ON aep.Alter_Ego_ID = ae.Alter_Ego_ID
 ;
 GO
---current time: 
 
+--current time: 2025-07-04 19:01:16.377
+
+SELECT getutcdate() 
 
 -------------------------------------------------------------------------
 -- Remember that time I was wonder woman? --
@@ -201,17 +210,18 @@ SELECT *
 FROM (
 	SELECT Alter_Ego_ID, Person_ID
 	FROM dbo.Alter_Ego_Person 
-	FOR System_Time AS OF '2020-12-03 15:31:48.7000'
+	FOR System_Time AS OF '2025-07-04 19:00:56.377'
 ) as aep_asof
 	JOIN dbo.Person as p ON aep_asof.Person_ID = p.Person_ID
 	JOIN dbo.Alter_Ego as ae ON aep_asof.Alter_Ego_ID = ae.Alter_Ego_ID
+
 
 -- let's look at some changes
 SELECT * 
 FROM (
 	SELECT Alter_Ego_ID, Person_ID, Sys_Start_Time, Sys_End_Time
 	FROM dbo.Alter_Ego_Person 
-	FOR System_Time BETWEEN '2020-12-03 15:31:28.030' AND '2020-12-03 15:31:48.650'
+	FOR System_Time BETWEEN '2025-07-04 19:01:00.377' AND '2025-07-04 19:01:16.377'
 ) as aep_asof
 	JOIN dbo.Person as p ON aep_asof.Person_ID = p.Person_ID
 	JOIN dbo.Alter_Ego as ae ON aep_asof.Alter_Ego_ID = ae.Alter_Ego_ID
@@ -230,7 +240,7 @@ FROM dbo.Alter_Ego_Person as aep
 GO
 
 SELECT * FROM dbo.Show_Alter_Ego_People
-FOR SYSTEM_TIME AS OF '2020-12-03 15:31:28.030'
+FOR SYSTEM_TIME AS OF '2025-07-04 19:00:56.377'
 
 
 -------------------------------------------------------------------------
@@ -242,11 +252,11 @@ SELECT count(*) FROM dbo.Alter_Ego_Person FOR System_Time ALL
 
 -- now look at the data
 SELECT * FROM dbo.Alter_Ego_Person_Temporal_History 
-ORDER BY Person_ID, Sys_Start_Time
+ORDER BY Person_ID, Sys_Start_Time, Sys_End_Time
 
 SELECT Alter_Ego_Person_ID, Person_ID, Alter_Ego_ID, Sys_Start_Time, Sys_End_Time 
 FROM dbo.Alter_Ego_Person FOR System_Time ALL
-ORDER BY Person_ID, Sys_Start_Time
+ORDER BY Person_ID, Sys_Start_Time, Sys_End_Time
 
 GO
 

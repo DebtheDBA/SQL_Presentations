@@ -29,14 +29,16 @@ SET Alter_Ego_ID = ae.Alter_Ego_ID
 FROM dbo.Alter_Ego_Person as aep 
 	JOIN dbo.Person as p ON aep.Person_ID = p.Person_ID
 	CROSS JOIN dbo.Alter_Ego as ae 
-WHERE (p.First_Name = 'Deborah' AND p.Last_Name = 'Melkin') AND ae.Alter_Ego_Name = 'Wonder Woman'
+WHERE (p.First_Name = 'Deborah' AND p.Last_Name = 'Melkin') 
+AND ae.Alter_Ego_Name = 'Wonder Woman'
 
 UPDATE aep
 SET Alter_Ego_ID = ae.Alter_Ego_ID
 FROM dbo.Alter_Ego_Person as aep 
 	JOIN dbo.Person as p ON aep.Person_ID = p.Person_ID
 	CROSS JOIN dbo.Alter_Ego as ae 
-WHERE (p.First_Name = 'Diana' AND p.Last_Name = 'Prince') AND ae.Alter_Ego_Name = 'Average Citizen'
+WHERE (p.First_Name = 'Diana' AND p.Last_Name = 'Prince') 
+AND ae.Alter_Ego_Name = 'Average Citizen'
 
 
 -- now, what did CDC capture?
