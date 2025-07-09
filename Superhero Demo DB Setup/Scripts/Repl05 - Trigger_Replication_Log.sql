@@ -13,3 +13,5 @@ CREATE TABLE dbo.Trigger_Replication_Log (
 	)
 ;
 GO
+
+SELECT * FROM dbo.Trigger_Replication_Log
